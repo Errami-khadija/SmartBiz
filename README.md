@@ -1,7 +1,7 @@
 # SmartBiz
 
 SmartBiz is a **small business management system** built with **Laravel**.  
-It acts as a lightweight ERP to help small businesses (shops, freelancers, home businesses, and online sellers) manage their daily operations efficiently.
+It acts as a lightweight ERP to help freelancers (developers, editers, designers ) manage their daily operations efficiently.
 
 ---
 
@@ -10,7 +10,7 @@ It acts as a lightweight ERP to help small businesses (shops, freelancers, home 
 - User authentication (login & registration)
 - Admin dashboard
 - Clients management
-- Products / services management
+- Services management
 - Orders & payments tracking
 - Expenses tracking
 - Modular & scalable Laravel architecture
@@ -50,38 +50,38 @@ git clone https://github.com/Errami-khadija/SmartBiz.git
 cd SmartBiz 
 ```
 
-## Install dependencies
+### 2. Install dependencies
 ```bash
 composer install
 npm install
 npm run build
 ```
-## Environment setup
+### 3. Environment setup
 ```bash
 cp .env.example .env
 ```
 
 Edit .env and add your database credentials.
 
-## Generate app key
+### 4. Generate app key
 ```bash
 php artisan key:generate
 ```
 
-## Run migrations
+### 5. Run migrations
 ```bash
 php artisan migrate
 ```
 
-## Start the development server
+### 6. Start the development server
 ```bash
 php artisan serve
 ```
 
-Author
+## Author
 
 Khadija Errami
-Laravel Developer
+- Laravel Developer
 
 ## License
 
