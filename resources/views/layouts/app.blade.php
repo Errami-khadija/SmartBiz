@@ -16,7 +16,6 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
@@ -27,10 +26,20 @@
                 </header>
             @endisset
 
+<div class="flex h-full overflow-auto">
+       <!-- Sidebar -->
+        @include('partials.sidebar')
+
+        <!-- Main Content -->
+   <div class="flex-1 overflow-auto">
+    @include('partials.header')
+
             <!-- Page Content -->
-            <main>
+            <main class="p-8">
                 {{ $slot }}
             </main>
+    </div>
+</div>
         </div>
     </body>
 </html>

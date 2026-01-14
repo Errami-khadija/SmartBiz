@@ -1,11 +1,9 @@
 <x-app-layout>
-   <div class="flex">
-        @include('partials.sidebar')
 
-        <div class="flex-1 p-6">
-            <h1 class="text-2xl font-bold">
-                Welcome to SmartBiz Dashboard
-            </h1>
-        </div>
+
+  
+    <!-- Dashboard Content -->
+    <div id="page-content" class="p-8"><!-- Content will be dynamically loaded here -->
     </div>
+  
 </x-app-layout>
