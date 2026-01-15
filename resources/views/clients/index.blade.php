@@ -52,12 +52,12 @@
 
           {{-- Active Projects --}}
           <td class="px-6 py-4 text-slate-800 font-medium">
-            {{ $client->active_projects_count }}
+           {{ $client->active_projects_count }}
           </td>
 
           {{-- Total Value (future-ready) --}}
           <td class="px-6 py-4 text-slate-800 font-bold">
-            ${{ number_format($client->projects()->sum('budget'), 2) }}
+            ${{ number_format($client->projects()->sum('budget'), 2) }} 
           </td>
 
           {{-- Status --}}
