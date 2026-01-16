@@ -29,7 +29,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return view('clients.create');
     }
 
     /**
@@ -47,6 +47,7 @@ class ClientController extends Controller
         'user_id' => auth()->id(),
         'name' => $request->name,
         'email' => $request->email,
+        'status' => 'active',
     ]);
 
     return redirect()->route('clients.index')
@@ -57,28 +58,28 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      */
-//    public function show(Client $client)
-// {
-//     abort_if($client->user_id !== auth()->id(), 403);
+   public function show(Client $client)
+{
+    abort_if($client->user_id !== auth()->id(), 403);
 
-//     $client->load([
-//         'projects' => function ($q) {
-//             $q->latest()->take(5);
-//         }
-//     ]);
+    $client->load([
+        'projects' => function ($q) {
+            $q->latest()->take(5);
+        }
+    ]);
 
-//     $activeProjectsCount = $client->projects()
-//         ->where('status', 'in_progress')
-//         ->count();
+    $activeProjectsCount = $client->projects()
+        ->where('status', 'in_progress')
+        ->count();
 
-//     $totalValue = $client->projects()->sum('budget');
+    $totalValue = $client->projects()->sum('budget');
 
-//     return view('clients.show', compact(
-//         'client',
-//         'activeProjectsCount',
-//         'totalValue'
-//     ));
-// }
+    return view('clients.show', compact(
+        'client',
+        'activeProjectsCount',
+        'totalValue'
+    ));
+}
 
 
     /**

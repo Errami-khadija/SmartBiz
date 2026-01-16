@@ -1,3 +1,4 @@
+<x-app-layout>
 <div class="modal-backdrop fixed inset-0 bg-black/50 flex items-center justify-center z-50">
   <div class="modal-content bg-white rounded-2xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
 
@@ -114,3 +115,4 @@
 
   </div>
 </div>
+</x-app-layout>

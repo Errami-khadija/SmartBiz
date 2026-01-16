@@ -62,146 +62,11 @@
       }
     }
     
-    // Page Navigation System
-    function showPage(pageName) {
-      // Update navigation active state
-      document.querySelectorAll('.nav-link').forEach(link => {
-        if (link.dataset.page === pageName) {
-          link.classList.remove('text-slate-400', 'hover:bg-slate-800');
-          link.classList.add('bg-slate-800', 'text-emerald-400');
-        } else {
-          link.classList.remove('bg-slate-800', 'text-emerald-400');
-          link.classList.add('text-slate-400', 'hover:bg-slate-800');
-        }
-      });
-      
-      // Load page content
-      const contentDiv = document.getElementById('page-content');
-      contentDiv.innerHTML = getPageContent(pageName);
-      
-      // Setup event listeners
-      setupEventListeners(pageName);
-    }
-    
-    function setupEventListeners(pageName) {
-      if (pageName === 'projects') {
-        const form = document.getElementById('project-form');
-        if (form) {
-          form.addEventListener('submit', handleProjectSubmit);
-        }
-      } else if (pageName === 'clients') {
-        const form = document.getElementById('client-form');
-        if (form) {
-          form.addEventListener('submit', handleClientSubmit);
-        }
-      } else if (pageName === 'invoices') {
-        const form = document.getElementById('invoice-form');
-        if (form) {
-          form.addEventListener('submit', handleInvoiceSubmit);
-        }
-      } else if (pageName === 'expenses') {
-        const form = document.getElementById('expense-form');
-        if (form) {
-          form.addEventListener('submit', handleExpenseSubmit);
-        }
-      } else if (pageName === 'time-tracking') {
-        const form = document.getElementById('time-form');
-        if (form) {
-          form.addEventListener('submit', handleTimeSubmit);
-        }
-      }
-    }
     
     // Project CRUD functions
-    function toggleProjectForm() {
-      const form = document.getElementById('project-form-container');
-      if (form.classList.contains('hidden')) {
-        form.classList.remove('hidden');
-      } else {
-        form.classList.add('hidden');
-        document.getElementById('project-form').reset();
-      }
-    }
+  
     
-    function viewProject(id) {
-      const project = projects.find(p => p.id === id);
-      if (!project) return;
-      
-      const modalContent = `
-        <div id="project-view-modal" class="modal-backdrop fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div class="modal-content bg-white rounded-2xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div class="flex items-start justify-between mb-6">
-              <div class="flex items-center gap-4">
-                <div class="w-16 h-16 rounded-xl bg-gradient-to-br ${project.color} flex items-center justify-center text-white font-bold text-2xl">
-                  ${project.initial}
-                </div>
-                <div>
-                  <h2 class="heading-font text-2xl font-bold text-slate-800">${project.name}</h2>
-                  <p class="text-slate-500">${project.client}</p>
-                </div>
-              </div>
-              <button onclick="hideModal('project-view-modal')" class="text-slate-400 hover:text-slate-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-              </button>
-            </div>
-            
-            <div class="space-y-6">
-              <div class="grid grid-cols-2 gap-6">
-                <div class="bg-slate-50 rounded-xl p-4">
-                  <p class="text-sm text-slate-600 mb-1">Budget</p>
-                  <p class="heading-font text-2xl font-bold text-slate-800">${project.budget}</p>
-                </div>
-                <div class="bg-slate-50 rounded-xl p-4">
-                  <p class="text-sm text-slate-600 mb-1">Status</p>
-                  <span class="inline-block text-sm font-medium text-blue-600 bg-blue-100 px-3 py-1 rounded-full">${project.status}</span>
-                </div>
-              </div>
-              
-              <div>
-                <div class="flex items-center justify-between mb-3">
-                  <p class="font-medium text-slate-700">Project Progress</p>
-                  <p class="text-2xl font-bold text-slate-800">${project.progress}%</p>
-                </div>
-                <div class="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
-                  <div class="h-full bg-emerald-500 rounded-full transition-all" style="width: ${project.progress}%"></div>
-                </div>
-              </div>
-              
-              <div class="border-t pt-6">
-                <h3 class="font-bold text-slate-800 mb-4">Project Details</h3>
-                <div class="space-y-3">
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Client Name</span>
-                    <span class="font-medium text-slate-800">${project.client}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Project ID</span>
-                    <span class="font-medium text-slate-800">#PRJ-${String(project.id).padStart(4, '0')}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Start Date</span>
-                    <span class="font-medium text-slate-800">Dec 1, 2024</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Deadline</span>
-                    <span class="font-medium text-slate-800">Dec 31, 2024</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="flex gap-3 pt-4">
-                <button onclick="hideModal('project-view-modal')" class="flex-1 px-6 py-3 bg-slate-100 text-slate-700 rounded-xl font-medium hover:bg-slate-200 transition-colors">Close</button>
-                <button class="flex-1 px-6 py-3 bg-emerald-500 text-white rounded-xl font-medium hover:bg-emerald-600 transition-colors">Edit Project</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      
-      document.body.insertAdjacentHTML('beforeend', modalContent);
-    }
+   
     
     function handleProjectSubmit(e) {
       e.preventDefault();
@@ -233,131 +98,32 @@
       showPage('projects');
     }
     
-    // Client CRUD functions
-    function toggleClientForm() {
-      const form = document.getElementById('client-form-container');
-      if (form.classList.contains('hidden')) {
-        form.classList.remove('hidden');
-      } else {
-        form.classList.add('hidden');
-        document.getElementById('client-form').reset();
-      }
+   // sweetAlert for deleting client
+document.addEventListener('submit', function (e) {
+    if (e.target.classList.contains('delete-client-form')) {
+        e.preventDefault();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This client will be permanently deleted.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'Yes, delete it',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                e.target.submit();
+            }
+        });
     }
+});
+
+
     
-    function viewClient(id) {
-      const client = clients.find(c => c.id === id);
-      if (!client) return;
-      
-      const modalContent = `
-        <div id="client-view-modal" class="modal-backdrop fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div class="modal-content bg-white rounded-2xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div class="flex items-start justify-between mb-6">
-              <div class="flex items-center gap-4">
-                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center text-white font-bold text-2xl">
-                  ${client.name.charAt(0)}
-                </div>
-                <div>
-                  <h2 class="heading-font text-2xl font-bold text-slate-800">${client.name}</h2>
-                  <p class="text-slate-500">${client.contact}</p>
-                </div>
-              </div>
-              <button onclick="hideModal('client-view-modal')" class="text-slate-400 hover:text-slate-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-              </button>
-            </div>
-            
-            <div class="space-y-6">
-              <div class="grid grid-cols-3 gap-4">
-                <div class="bg-slate-50 rounded-xl p-4">
-                  <p class="text-sm text-slate-600 mb-1">Active Projects</p>
-                  <p class="heading-font text-2xl font-bold text-slate-800">${client.projects}</p>
-                </div>
-                <div class="bg-slate-50 rounded-xl p-4">
-                  <p class="text-sm text-slate-600 mb-1">Total Value</p>
-                  <p class="heading-font text-2xl font-bold text-slate-800">${client.value}</p>
-                </div>
-                <div class="bg-slate-50 rounded-xl p-4">
-                  <p class="text-sm text-slate-600 mb-1">Status</p>
-                  <span class="inline-block text-sm font-medium text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">${client.status}</span>
-                </div>
-              </div>
-              
-              <div class="border-t pt-6">
-                <h3 class="font-bold text-slate-800 mb-4">Client Information</h3>
-                <div class="space-y-3">
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Client Name</span>
-                    <span class="font-medium text-slate-800">${client.name}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Email</span>
-                    <span class="font-medium text-slate-800">${client.contact}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Client ID</span>
-                    <span class="font-medium text-slate-800">#CLT-${String(client.id).padStart(4, '0')}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Member Since</span>
-                    <span class="font-medium text-slate-800">Jan 2024</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Last Contact</span>
-                    <span class="font-medium text-slate-800">Dec 20, 2024</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="border-t pt-6">
-                <h3 class="font-bold text-slate-800 mb-4">Recent Projects</h3>
-                <div class="space-y-2">
-                  <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
-                    <span class="text-slate-700">E-commerce Redesign</span>
-                    <span class="text-sm text-emerald-600 font-medium">Active</span>
-                  </div>
-                  <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
-                    <span class="text-slate-700">Brand Identity</span>
-                    <span class="text-sm text-blue-600 font-medium">Completed</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="flex gap-3 pt-4">
-                <button onclick="hideModal('client-view-modal')" class="flex-1 px-6 py-3 bg-slate-100 text-slate-700 rounded-xl font-medium hover:bg-slate-200 transition-colors">Close</button>
-                <button class="flex-1 px-6 py-3 bg-emerald-500 text-white rounded-xl font-medium hover:bg-emerald-600 transition-colors">Edit Client</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      
-      document.body.insertAdjacentHTML('beforeend', modalContent);
-    }
+   
     
-    function handleClientSubmit(e) {
-      e.preventDefault();
-      const name = document.getElementById('client-name').value;
-      const contact = document.getElementById('client-contact').value;
-      
-      clients.push({
-        id: nextClientId++,
-        name,
-        contact,
-        projects: 0,
-        value: '$0',
-        status: 'Active'
-      });
-      
-      toggleClientForm();
-      showPage('clients');
-    }
-    
-    function deleteClient(id) {
-      clients = clients.filter(c => c.id !== id);
-      showPage('clients');
-    }
+   
     
     // Invoice CRUD functions
     function toggleInvoiceForm() {
@@ -1592,11 +1358,7 @@
       };
     }
 
-    function toggleProjectForm() {
-    document.getElementById('project-form-container')
-        .classList.toggle('hidden');
-}
-    
+
     function mapToEditPanelValues(config) {
       return new Map([
         ['app_title', config.app_title || defaultConfig.app_title],
