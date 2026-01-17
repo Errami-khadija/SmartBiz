@@ -14,11 +14,11 @@ class ClientController extends Controller
     public function index()
     {
         $clients = Client::where('user_id', auth()->id())
-        // ->withCount([
-        //     'projects as active_projects_count' => function ($q) {
-        //         $q->where('status', 'in_progress');
-        //     }
-        // ])
+        ->withCount([
+            'projects as active_projects_count' => function ($q) {
+                $q->where('status', 'in_progress');
+            }
+        ])
         ->get();
 
     return view('clients.index', compact('clients'));
@@ -105,8 +105,12 @@ class ClientController extends Controller
 
     $client->update($request->only('name', 'email', 'status'));
 
-    return redirect()->route('clients.index')
-        ->with('success', 'Client updated successfully');
+   return redirect()
+    ->route('clients.show', $client->id)
+    ->with([
+        'success' => 'Client updated successfully',
+        'from_update' => true,
+    ]);
 }
 
 

@@ -119,6 +119,16 @@ document.addEventListener('submit', function (e) {
     }
 });
 
+// Edit Client Modal functions
+  window.openEditModal = function() {
+    document.getElementById('editClientModal').classList.remove('hidden')
+    document.getElementById('editClientModal').classList.add('flex')
+  }
+
+  window.closeEditModal = function() {
+    document.getElementById('editClientModal').classList.add('hidden')
+    document.getElementById('editClientModal').classList.remove('flex')
+  }
 
     
    
