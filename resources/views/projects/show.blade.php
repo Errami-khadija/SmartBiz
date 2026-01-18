@@ -1,0 +1,112 @@
+<x-app-layout>
+    <div class="max-w-6xl mx-auto py-8 px-4">
+
+        {{-- Page Header --}}
+        <div class="flex items-start justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-800">
+                    {{ $project->name }}
+                </h1>
+                <p class="text-slate-500 mt-1">
+                    {{ $project->client->name ?? 'No client assigned' }}
+                </p>
+            </div>
+
+            <div class="flex gap-3">
+                <a href="{{ route('projects.edit', $project) }}"
+                   class="px-5 py-2.5 bg-emerald-500 text-white rounded-xl font-medium hover:bg-emerald-600">
+                    Edit
+                </a>
+
+                <a href="{{ route('projects.index') }}"
+                   class="px-5 py-2.5 bg-slate-100 text-slate-700 rounded-xl font-medium hover:bg-slate-200">
+                    Back
+                </a>
+            </div>
+        </div>
+
+        {{-- Stats --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+            <div class="bg-white rounded-xl shadow p-6">
+                <p class="text-sm text-slate-500">Budget</p>
+                <p class="text-2xl font-bold text-slate-800 mt-2">
+                    {{ $project->budget ?? '—' }} $
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6">
+                <p class="text-sm text-slate-500">Status</p>
+                <span
+                    class="inline-block mt-2 px-3 py-1 rounded-full text-sm font-medium
+                    @if($project->status === 'active') bg-emerald-100 text-emerald-700
+                    @elseif($project->status === 'pending') bg-yellow-100 text-yellow-700
+                    @else bg-slate-100 text-slate-700 @endif">
+                    {{ ucfirst($project->status) }}
+                </span>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6">
+                <p class="text-sm text-slate-500">Progress</p>
+                <p class="text-2xl font-bold text-slate-800 mt-2">
+                    {{ $project->progress ?? 0 }}%
+                </p>
+            </div>
+
+        </div>
+
+        {{-- Progress Bar --}}
+        <div class="bg-white rounded-xl shadow p-6 mb-8">
+            <div class="flex justify-between mb-3">
+                <span class="font-medium text-slate-700">Project Progress</span>
+                <span class="font-bold text-slate-800">
+                    {{ $project->progress ?? 0 }}%
+                </span>
+            </div>
+
+            <div class="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 rounded-full"
+                     style="width: {{ $project->progress ?? 0 }}%">
+                </div>
+            </div>
+        </div>
+
+        {{-- Details --}}
+        <div class="bg-white rounded-xl shadow p-6">
+            <h2 class="text-lg font-bold text-slate-800 mb-4">
+                Project Details
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Client</span>
+                    <span class="font-medium text-slate-800">
+                        {{ $project->client->name ?? '—' }}
+                    </span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Project ID</span>
+                    <span class="font-medium text-slate-800">
+                        #PRJ-{{ str_pad($project->id, 4, '0', STR_PAD_LEFT) }}
+                    </span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Start Date</span>
+                    <span class="font-medium text-slate-800">
+                        {{ $project->start_date ?? '—' }}
+                    </span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Deadline</span>
+                    <span class="font-medium text-slate-800">
+                        {{ $project->end_date ?? '—' }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</x-app-layout>

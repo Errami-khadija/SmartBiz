@@ -62,7 +62,7 @@
                     View Details
                 </a>
 
-                <form action="{{ route('projects.destroy', $project) }}" method="POST">
+                <form action="{{ route('projects.destroy', $project) }}" method="POST" class="delete-project-form">
                     @csrf
                     @method('DELETE')
                     <div class="px-4 py-2 bg-rose-50 rounded-lg">

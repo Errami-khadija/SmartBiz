@@ -119,6 +119,26 @@ document.addEventListener('submit', function (e) {
     }
 });
 
+// sweetAlert for deleting project
+document.addEventListener('submit', function (e) {
+    if (e.target.classList.contains('delete-project-form')) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This project will be permanently deleted.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'Yes, delete it',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                e.target.submit();
+            }
+        });
+    }
+});
+
 // Edit Client Modal functions
   window.openEditModal = function() {
     document.getElementById('editClientModal').classList.remove('hidden')

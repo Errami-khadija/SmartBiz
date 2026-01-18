@@ -37,6 +37,8 @@ class ProjectController extends Controller
         'client_id' => 'required|exists:clients,id',
         'name' => 'required|string|max:255',
         'status' => 'required',
+         'start_date' => 'nullable|date',
+        'end_date' => 'nullable|date|after_or_equal:start_date',
     ]);
 
     Project::create($request->all());
@@ -48,9 +50,9 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Project $project)
     {
-        //
+        return view('projects.show', compact('project'));
     }
 
     /**
@@ -76,10 +78,12 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+   public function destroy(string $id)
     {
-          $project->delete();
+         $project = Project::findOrFail($id);
+         $project->delete();
 
-    return back()->with('success', 'Project deleted');
+    return redirect()->route('projects.index')
+        ->with('success', 'Project deleted successfully');
     }
 }
