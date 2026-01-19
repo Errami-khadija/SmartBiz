@@ -13,10 +13,11 @@
             </div>
 
             <div class="flex gap-3">
-                <a href="{{ route('projects.edit', $project) }}"
+                <button
+                    onclick="openEditProjectModal({{ $project->id }})"
                    class="px-5 py-2.5 bg-emerald-500 text-white rounded-xl font-medium hover:bg-emerald-600">
                     Edit
-                </a>
+                </button>
 
                 <a href="{{ route('projects.index') }}"
                    class="px-5 py-2.5 bg-slate-100 text-slate-700 rounded-xl font-medium hover:bg-slate-200">
@@ -71,6 +72,16 @@
             </div>
         </div>
 
+        {{-- Description --}}
+        <div class="bg-white rounded-xl shadow p-6 mb-8">
+            <h2 class="text-lg font-bold text-slate-800 mb-4">
+                Project Description
+            </h2>
+            <p class="text-slate-700">
+                {{ $project->description ?? 'No description provided.' }}
+            </p>
+        </div>
+
         {{-- Details --}}
         <div class="bg-white rounded-xl shadow p-6">
             <h2 class="text-lg font-bold text-slate-800 mb-4">
@@ -109,4 +120,6 @@
         </div>
 
     </div>
+
+    @include('projects._edit-modal', ['project' => $project])
 </x-app-layout>

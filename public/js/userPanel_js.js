@@ -150,12 +150,17 @@ document.addEventListener('submit', function (e) {
     document.getElementById('editClientModal').classList.remove('flex')
   }
 
-    
-   
-    
-   
-    
-    // Invoice CRUD functions
+// Edit Project Modal functions
+  window.openEditProjectModal = function() {
+    document.getElementById('editProjectModal').classList.remove('hidden')
+    document.getElementById('editProjectModal').classList.add('flex')
+  }
+  window.closeEditProjectModal = function() {
+    document.getElementById('editProjectModal').classList.add('hidden')
+    document.getElementById('editProjectModal').classList.remove('flex')
+  }
+
+  // Invoice CRUD functions
     function toggleInvoiceForm() {
       const form = document.getElementById('invoice-form-container');
       if (form.classList.contains('hidden')) {

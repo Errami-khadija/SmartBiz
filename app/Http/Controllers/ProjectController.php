@@ -36,6 +36,7 @@ class ProjectController extends Controller
         $request->validate([
         'client_id' => 'required|exists:clients,id',
         'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
         'status' => 'required',
          'start_date' => 'nullable|date',
         'end_date' => 'nullable|date|after_or_equal:start_date',
@@ -60,20 +61,31 @@ class ProjectController extends Controller
      */
     public function edit(string $id)
     {
-       $clients = Client::all();
-    return view('admin.projects.edit', compact('project', 'clients'));
+       //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-         $project->update($request->all());
+   public function update(Request $request, string $id)
+{
+    $project = Project::findOrFail($id);
 
-    return redirect()->route('projects.index')
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'status' => 'required|in:pending,in_progress,completed',
+        'start_date' => 'nullable|date',
+        'end_date' => 'nullable|date|after_or_equal:start_date',
+    ]);
+
+    $project->update($validated);
+
+    return redirect()
+        ->route('projects.show', $project)
         ->with('success', 'Project updated successfully');
-    }
+}
+
 
     /**
      * Remove the specified resource from storage.
