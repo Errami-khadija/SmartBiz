@@ -90,5 +90,15 @@
 <div class="mt-6">
     {{ $projects->links() }}
 </div>
+@if (session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: "{{ session('success') }}",
+        confirmButtonColor: '#10b981',
+    });
+</script>
+@endif
 
 </x-app-layout>

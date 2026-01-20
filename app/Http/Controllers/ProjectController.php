@@ -32,27 +32,50 @@ class ProjectController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $request->validate([
+{
+    $request->validate([
         'client_id' => 'required|exists:clients,id',
         'name' => 'required|string|max:255',
         'description' => 'nullable|string',
-        'status' => 'required',
-         'start_date' => 'nullable|date',
+        'budget' => 'nullable|numeric',
+        'start_date' => 'nullable|date',
         'end_date' => 'nullable|date|after_or_equal:start_date',
+        'tasks.*.title' => 'nullable|string|max:255',
     ]);
 
-    Project::create($request->all());
+    // 1️⃣ Create project AND keep reference
+    $project = Project::create($request->only([
+        'client_id',
+        'name',
+        'description',
+        'budget',
+        'start_date',
+        'end_date',
+    ]));
 
-    return redirect()->route('projects.index')
-        ->with('success', 'Project created successfully');
+    // 2️⃣ Create tasks
+    if ($request->filled('tasks')) {
+        foreach ($request->tasks as $task) {
+            if (!empty($task['title'])) {
+                $project->tasks()->create([
+                    'title' => $task['title'],
+                    // status defaults to "todo"
+                ]);
+            }
+        }
     }
+
+    return redirect()
+        ->route('projects.index')
+        ->with('success', 'Project created successfully');
+}
 
     /**
      * Display the specified resource.
      */
     public function show(Project $project)
-    {
+    {  
+         $project->load('client', 'tasks');
         return view('projects.show', compact('project'));
     }
 
@@ -71,13 +94,13 @@ class ProjectController extends Controller
 {
     $project = Project::findOrFail($id);
 
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'status' => 'required|in:pending,in_progress,completed',
-        'start_date' => 'nullable|date',
-        'end_date' => 'nullable|date|after_or_equal:start_date',
-    ]);
+   $validated = $request->validate([
+    'name' => 'required|string|max:255',
+    'description' => 'nullable|string',
+    'start_date' => 'nullable|date',
+    'end_date' => 'nullable|date|after_or_equal:start_date',
+]);
+
 
     $project->update($validated);
 

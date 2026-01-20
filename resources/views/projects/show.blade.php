@@ -72,6 +72,54 @@
             </div>
         </div>
 
+        {{-- Tasks --}}
+<div class="bg-white rounded-xl shadow p-6 mt-8">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-bold text-slate-800">
+            Tasks
+        </h2>
+
+        <button
+            onclick="openCreateTaskModal()"
+            class="px-4 py-2 bg-emerald-500 text-white rounded-xl text-sm hover:bg-emerald-600">
+            + Add Task
+        </button>
+    </div>
+
+    @if($project->tasks->count())
+        <div class="space-y-4">
+            @foreach($project->tasks as $task)
+                <div class="flex justify-between items-center p-4 border rounded-xl">
+                    <div>
+                        <p class="font-medium text-slate-800">
+                            {{ $task->title }}
+                        </p>
+                        <p class="text-sm text-slate-500">
+                            {{ $task->description }}
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <span class="
+                            px-3 py-1 text-xs rounded-full
+                            @if($task->status === 'done') bg-emerald-100 text-emerald-700
+                            @elseif($task->status === 'in_progress') bg-yellow-100 text-yellow-700
+                            @else bg-slate-100 text-slate-700 @endif
+                        ">
+                            {{ ucfirst(str_replace('_', ' ', $task->status)) }}
+                        </span>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @else
+        <p class="text-slate-500 text-sm">
+            No tasks added yet.
+        </p>
+    @endif
+</div>
+
+
         {{-- Description --}}
         <div class="bg-white rounded-xl shadow p-6 mb-8">
             <h2 class="text-lg font-bold text-slate-800 mb-4">
