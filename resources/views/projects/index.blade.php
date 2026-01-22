@@ -38,12 +38,10 @@
                         {{ $project->client->name }}
                     </p>
 
-                    <span class="inline-block mt-2 text-xs font-medium px-2 py-1 rounded-full
-                        {{ $project->status === 'completed'
-                            ? 'bg-green-100 text-green-600'
-                            : 'bg-blue-100 text-blue-600' }}">
-                        {{ ucfirst(str_replace('_', ' ', $project->status)) }}
-                    </span>
+                    <span class="inline-block mt-2 text-xs font-medium px-2 py-1 rounded-full {{ $project->status_color }}">
+                      {{ ucfirst(str_replace('_', ' ', $project->status)) }}
+                  </span>
+
                 </div>
             </div>
 
@@ -90,7 +88,7 @@
 <div class="mt-6">
     {{ $projects->links() }}
 </div>
-@if (session('success'))
+@if (session('success') && session('from_update'))
 <script>
     Swal.fire({
         icon: 'success',

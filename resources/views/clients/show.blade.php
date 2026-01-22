@@ -106,7 +106,7 @@
       {{-- Actions --}}
       <div class="flex gap-4">
        <button
-          onclick="openEditModal()"
+          onclick="openEditModal({{ $client->id }})"
            class="px-6 py-3 bg-emerald-500 text-white rounded-xl font-medium hover:bg-emerald-600"
           >
           Edit Client
@@ -115,7 +115,7 @@
 
     </div>
   </div>
-  @include('clients._edit-modal')
+  @include('clients._edit-modal', ['client' => $client])
 
 </x-app-layout>
 

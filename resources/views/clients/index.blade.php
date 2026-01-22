@@ -121,5 +121,4 @@
     </tbody>
   </table>
 </div>
-@include('clients._edit-modal')
 </x-app-layout>

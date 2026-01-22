@@ -1,4 +1,5 @@
 <x-app-layout>
+    
     <div class="max-w-6xl mx-auto py-8 px-4">
 
         {{-- Page Header --}}
@@ -36,23 +37,26 @@
                 </p>
             </div>
 
-            <div class="bg-white rounded-xl shadow p-6">
-                <p class="text-sm text-slate-500">Status</p>
-                <span
-                    class="inline-block mt-2 px-3 py-1 rounded-full text-sm font-medium
-                    @if($project->status === 'active') bg-emerald-100 text-emerald-700
-                    @elseif($project->status === 'pending') bg-yellow-100 text-yellow-700
-                    @else bg-slate-100 text-slate-700 @endif">
-                    {{ ucfirst($project->status) }}
-                </span>
-            </div>
+           <div class="bg-white rounded-xl shadow p-6">
+    <p class="text-sm text-slate-500">Status</p>
 
-            <div class="bg-white rounded-xl shadow p-6">
-                <p class="text-sm text-slate-500">Progress</p>
-                <p class="text-2xl font-bold text-slate-800 mt-2">
-                    {{ $project->progress ?? 0 }}%
-                </p>
-            </div>
+    @php
+        $status = $project->status;
+    @endphp
+
+   <span class="inline-block mt-2 text-xs font-medium px-2 py-1 rounded-full {{ $project->status_color }}">
+                      {{ ucfirst(str_replace('_', ' ', $project->status)) }}
+                  </span>
+</div>
+
+
+<div class="bg-white rounded-xl shadow p-6">
+    <p class="text-sm text-slate-500">Progress</p>
+    <p class="text-2xl font-bold text-slate-800 mt-2">
+        {{ $project->progress }}%
+    </p>
+</div>
+
 
         </div>
 
@@ -80,11 +84,12 @@
         </h2>
 
         <button
-            onclick="openCreateTaskModal()"
+             onclick="addTaskRow()"
             class="px-4 py-2 bg-emerald-500 text-white rounded-xl text-sm hover:bg-emerald-600">
             + Add Task
         </button>
     </div>
+
 
     @if($project->tasks->count())
         <div class="space-y-4">

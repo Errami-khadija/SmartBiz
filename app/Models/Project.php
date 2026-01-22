@@ -37,12 +37,26 @@ public function getStatusAttribute()
 
     $completed = $this->tasks()->where('status', 'done')->count();
 
+    if ($completed === 0) {
+        return 'just_started';
+    }
+
     if ($completed === $total) {
         return 'completed';
     }
 
     return 'in_progress';
 }
+
+public function getStatusColorAttribute()
+{
+    return match ($this->status) {
+        'completed'   => 'bg-emerald-100 text-emerald-700',
+        'in_progress' => 'bg-blue-100 text-blue-700',
+        default       => 'bg-yellow-100 text-yellow-700',
+    };
+}
+
 
 public function getProgressAttribute()
 {

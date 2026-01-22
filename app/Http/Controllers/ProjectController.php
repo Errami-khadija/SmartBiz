@@ -67,7 +67,10 @@ class ProjectController extends Controller
 
     return redirect()
         ->route('projects.index')
-        ->with('success', 'Project created successfully');
+        ->with([
+        'success' => 'Project created successfully',
+        'from_update' => true,
+    ]);
 }
 
     /**
@@ -106,7 +109,10 @@ class ProjectController extends Controller
 
     return redirect()
         ->route('projects.show', $project)
-        ->with('success', 'Project updated successfully');
+        ->with([
+        'success' => 'Project updated successfully',
+        'from_update' => true,
+    ]);
 }
 
 
