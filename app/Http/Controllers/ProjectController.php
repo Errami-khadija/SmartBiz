@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\Client;
+use App\Models\Task;
 
 class ProjectController extends Controller
 {
@@ -114,6 +115,46 @@ class ProjectController extends Controller
         'from_update' => true,
     ]);
 }
+
+public function storeTasks(Request $request, Project $project)
+{
+    $task = $project->tasks()->create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'status' => 'todo',
+    ]);
+
+    return response()->json($task);
+}
+
+
+
+public function toggle(Task $task)
+{
+    $task->update([
+        'status' => $task->status === 'done' ? 'todo' : 'done',
+    ]);
+
+    $project = $task->project;
+
+    // Recalculate progress
+    $total = $project->tasks()->count();
+    $done  = $project->tasks()->where('status', 'done')->count();
+
+    $progress = $total > 0 ? round(($done / $total) * 100) : 0;
+
+    $project->update([
+        'progress' => $progress,
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'task_status' => $task->status,
+        'progress' => $progress,
+    ]);
+}
+
+
 
 
     /**

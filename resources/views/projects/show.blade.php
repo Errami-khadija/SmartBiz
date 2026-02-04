@@ -64,13 +64,14 @@
         <div class="bg-white rounded-xl shadow p-6 mb-8">
             <div class="flex justify-between mb-3">
                 <span class="font-medium text-slate-700">Project Progress</span>
-                <span class="font-bold text-slate-800">
+                <span  id="projectProgressText" class="font-bold text-slate-800">
                     {{ $project->progress ?? 0 }}%
                 </span>
             </div>
 
             <div class="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
                 <div class="h-full bg-emerald-500 rounded-full"
+                      id="projectProgressBar"
                      style="width: {{ $project->progress ?? 0 }}%">
                 </div>
             </div>
@@ -84,11 +85,12 @@
         </h2>
 
         <button
-             onclick="addTaskRow()"
+             onclick="addTaskRowToShowPage()"
             class="px-4 py-2 bg-emerald-500 text-white rounded-xl text-sm hover:bg-emerald-600">
             + Add Task
         </button>
     </div>
+  <div id="tasks-container" class="space-y-3 mb-4"></div>
 
 
     @if($project->tasks->count())
@@ -96,24 +98,22 @@
             @foreach($project->tasks as $task)
                 <div class="flex justify-between items-center p-4 border rounded-xl">
                     <div>
-                        <p class="font-medium text-slate-800">
+                        <p
+                          id="task-title-{{ $task->id }}"
+                         class="font-medium text-slate-800">
                             {{ $task->title }}
                         </p>
-                        <p class="text-sm text-slate-500">
-                            {{ $task->description }}
-                        </p>
+                        
                     </div>
 
-                    <div class="flex items-center gap-3">
-                        <span class="
-                            px-3 py-1 text-xs rounded-full
-                            @if($task->status === 'done') bg-emerald-100 text-emerald-700
-                            @elseif($task->status === 'in_progress') bg-yellow-100 text-yellow-700
-                            @else bg-slate-100 text-slate-700 @endif
-                        ">
-                            {{ ucfirst(str_replace('_', ' ', $task->status)) }}
-                        </span>
-                    </div>
+                   <div class="flex items-center gap-3">
+                      <input
+                          type="checkbox"
+                          class="w-5 h-5 text-emerald-500 border-slate-300 rounded focus:ring-emerald-500"
+                          {{ $task->status === 'done' ? 'checked' : '' }}
+                          onchange="toggleTaskStatus({{ $task->id }}, this.checked)"
+                      >
+                  </div>
                 </div>
             @endforeach
         </div>
@@ -122,6 +122,10 @@
             No tasks added yet.
         </p>
     @endif
+</div>
+
+
+
 </div>
 
 
