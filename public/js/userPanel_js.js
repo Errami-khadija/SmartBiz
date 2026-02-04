@@ -219,6 +219,7 @@ window.toggleTaskStatus = function(taskId, checked) {
 
 window.addTaskRowToShowPage = function () {
     const container = document.getElementById('tasks-container');
+     if (!container) return;
 
     const row = document.createElement('div');
     row.className = 'flex items-center gap-3 task-row';
@@ -254,7 +255,15 @@ window.saveTaskOnEnter = function (event, input) {
     const title = input.value.trim();
     if (!title) return;
 
-    fetch(`/projects/{{ $project->id }}/tasks`, {
+     const container = input.closest('[data-project-id]');
+    const projectId = container ? container.dataset.projectId : null;
+
+    if (!projectId) {
+        alert('Project not found for this task.');
+        return;
+    }
+
+    fetch(`/projects/${projectId}/tasks`, {
         method: 'POST',
         headers: {
             'X-CSRF-TOKEN': document

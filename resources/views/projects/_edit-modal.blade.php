@@ -48,27 +48,6 @@
           >{{ old('description', $project->description) }}</textarea>
         </div>
 
-        {{-- Status --}}
-        <div>
-          <label class="block text-sm font-medium text-slate-600 mb-1">
-            Status
-          </label>
-          <select
-            name="status"
-            class="w-full rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500"
-          >
-            <option value="pending" {{ $project->status === 'pending' ? 'selected' : '' }}>
-              Pending
-            </option>
-            <option value="in_progress" {{ $project->status === 'in_progress' ? 'selected' : '' }}>
-              In Progress
-            </option>
-            <option value="completed" {{ $project->status === 'completed' ? 'selected' : '' }}>
-              Completed
-            </option>
-          </select>
-        </div>
-
         {{-- Dates --}}
         <div class="grid grid-cols-2 gap-4">
           <div>

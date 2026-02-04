@@ -90,7 +90,7 @@
             + Add Task
         </button>
     </div>
-  <div id="tasks-container" class="space-y-3 mb-4"></div>
+   <div id="tasks-container" class="space-y-3 mb-4" data-project-id="{{ $project->id }}"></div>
 
 
     @if($project->tasks->count())

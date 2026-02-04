@@ -14,11 +14,7 @@ class ClientController extends Controller
     public function index()
     {
         $clients = Client::where('user_id', auth()->id())
-        ->withCount([
-            'projects as active_projects_count' => function ($q) {
-                $q->where('status', 'in_progress');
-            }
-        ])
+        ->withCount('projects as active_projects_count')
         ->get();
 
     return view('clients.index', compact('clients'));
@@ -68,10 +64,8 @@ class ClientController extends Controller
         }
     ]);
 
-    $activeProjectsCount = $client->projects()
-        ->where('status', 'in_progress')
-        ->count();
-
+    $activeProjectsCount = $client->projects()->count();
+    
     $totalValue = $client->projects()->sum('budget');
 
     return view('clients.show', compact(

@@ -86,7 +86,7 @@
               </a>
 
               {{-- Edit --}}
-              <button onclick="openEditModal()"
+              <button onclick="openEditModal({{ $client->id }})"
                  class="text-blue-600 hover:text-blue-700">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -121,4 +121,5 @@
     </tbody>
   </table>
 </div>
+ @include('clients._edit-modal', ['client' => $client])
 </x-app-layout>

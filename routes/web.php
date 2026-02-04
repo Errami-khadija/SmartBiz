@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,11 +24,15 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('projects', ProjectController::class);
 
-Route::patch('/tasks/{task}/toggle', [ProjectController::class, 'toggle'])
+    Route::patch('/tasks/{task}/toggle', [ProjectController::class, 'toggle'])
     ->name('tasks.toggle');
 
     Route::post('/projects/{project}/tasks', [ProjectController::class, 'storeTasks'])
     ->name('tasks.store');
+
+   Route::resource('invoices', InvoiceController::class);
+   Route::get('/invoices/{invoice}/download', [InvoiceController::class, 'download'])
+    ->name('invoices.download');
 
 
 
