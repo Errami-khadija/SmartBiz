@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\TimeEntryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,6 +35,14 @@ Route::middleware('auth')->group(function () {
    Route::resource('invoices', InvoiceController::class);
    Route::get('/invoices/{invoice}/download', [InvoiceController::class, 'download'])
     ->name('invoices.download');
+
+    Route::resource('expenses', ExpenseController::class)
+    ->only(['index', 'create', 'store', 'show', 'destroy']);
+
+    Route::resource('time-entries', TimeEntryController::class);
+
+
+
 
 
 

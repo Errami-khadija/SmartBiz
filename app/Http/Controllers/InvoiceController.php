@@ -124,6 +124,9 @@ class InvoiceController extends Controller
     {
         $invoice->delete();
 
-        return back();
+        return redirect()
+    ->route('invoices.index')
+    ->with('success', 'Invoice deleted successfully.');
+
     }
 }

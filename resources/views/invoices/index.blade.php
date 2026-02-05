@@ -138,19 +138,22 @@
        class="text-emerald-600 hover:text-emerald-700 font-medium text-sm">
         View
     </a>
-    <a href="{{ route('invoices.edit', $invoice->id) }}"
-       class="ml-4 text-slate-600 hover:text-slate-800 font-medium text-sm">
-        Edit
+    <a href="{{ route('invoices.download', $invoice->id) }}"
+       class="ml-4 text-blue-600 hover:text-blue-800 font-medium text-sm">
+        download
     </a>
-    <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST" class="inline ml-4">
-        @csrf
-        @method('DELETE')
-        <button type="submit"
-                class="text-rose-600 hover:text-rose-800 font-medium text-sm"
-                onclick="return confirm('Are you sure you want to delete this invoice?');">
-            Delete
-        </button>
-    </form>
+   <form action="{{ route('invoices.destroy', $invoice->id) }}"
+      method="POST"
+      class="inline ml-4 delete-invoice-form">
+    @csrf
+    @method('DELETE')
+
+    <button type="submit"
+            class="text-rose-600 hover:text-rose-800 font-medium text-sm">
+        Delete
+    </button>
+</form>
+
 </td>
 
                     </tr>
@@ -164,4 +167,17 @@
             </tbody>
         </table>
     </div>
+
+    @if(session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Done',
+        text: "{{ session('success') }}",
+        timer: 2000,
+        showConfirmButton: false
+    });
+</script>
+@endif
+
 </x-app-layout>

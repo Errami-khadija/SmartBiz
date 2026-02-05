@@ -286,276 +286,55 @@ window.saveTaskOnEnter = function (event, input) {
         alert('Failed to save task');
     });
 };
+    // SweetAlert for deleting invoice
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.delete-invoice-form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Delete invoice?',
+                    text: "This action cannot be undone.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#e11d48', // rose-600
+                    cancelButtonColor: '#6b7280',  // gray-500
+                    confirmButtonText: 'Yes, delete it',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+
+      // SweetAlert for deleting expense
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.delete-expense-form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Delete expense?',
+                    text: "This action cannot be undone.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#e11d48', // rose-600
+                    cancelButtonColor: '#6b7280',  // gray-500
+                    confirmButtonText: 'Yes, delete it',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
 
 
-
-  // Invoice CRUD functions
-    function toggleInvoiceForm() {
-      const form = document.getElementById('invoice-form-container');
-      if (form.classList.contains('hidden')) {
-        form.classList.remove('hidden');
-      } else {
-        form.classList.add('hidden');
-        document.getElementById('invoice-form').reset();
-      }
-    }
-    
-    function viewInvoice(id) {
-      const invoice = invoices.find(i => i.id === id);
-      if (!invoice) return;
-      
-      const modalContent = `
-        <div id="invoice-view-modal" class="modal-backdrop fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div class="modal-content bg-white rounded-2xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div class="flex items-start justify-between mb-6">
-              <div>
-                <h2 class="heading-font text-2xl font-bold text-slate-800">${invoice.invoiceId}</h2>
-                <p class="text-slate-500">${invoice.client}</p>
-              </div>
-              <button onclick="hideModal('invoice-view-modal')" class="text-slate-400 hover:text-slate-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-              </button>
-            </div>
-            
-            <div class="space-y-6">
-              <div class="grid grid-cols-3 gap-4">
-                <div class="bg-slate-50 rounded-xl p-4">
-                  <p class="text-sm text-slate-600 mb-1">Amount</p>
-                  <p class="heading-font text-2xl font-bold text-slate-800">${invoice.amount}</p>
-                </div>
-                <div class="bg-slate-50 rounded-xl p-4">
-                  <p class="text-sm text-slate-600 mb-1">Status</p>
-                  <span class="inline-block text-sm font-medium text-${invoice.statusColor}-600 bg-${invoice.statusColor}-100 px-3 py-1 rounded-full">${invoice.status}</span>
-                </div>
-                <div class="bg-slate-50 rounded-xl p-4">
-                  <p class="text-sm text-slate-600 mb-1">Date</p>
-                  <p class="font-medium text-slate-800">${invoice.date}</p>
-                </div>
-              </div>
-              
-              <div class="border-t pt-6">
-                <h3 class="font-bold text-slate-800 mb-4">Invoice Details</h3>
-                <div class="space-y-3">
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Invoice ID</span>
-                    <span class="font-medium text-slate-800">${invoice.invoiceId}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Client</span>
-                    <span class="font-medium text-slate-800">${invoice.client}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Issue Date</span>
-                    <span class="font-medium text-slate-800">${invoice.date}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Due Date</span>
-                    <span class="font-medium text-slate-800">Dec 30, 2024</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Payment Terms</span>
-                    <span class="font-medium text-slate-800">Net 30</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="border-t pt-6">
-                <h3 class="font-bold text-slate-800 mb-4">Line Items</h3>
-                <div class="space-y-2">
-                  <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
-                    <div>
-                      <p class="font-medium text-slate-800">Design Services</p>
-                      <p class="text-sm text-slate-500">40 hours × $50/hr</p>
-                    </div>
-                    <span class="font-bold text-slate-800">$2,000</span>
-                  </div>
-                  <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
-                    <div>
-                      <p class="font-medium text-slate-800">Development Work</p>
-                      <p class="text-sm text-slate-500">30 hours × $75/hr</p>
-                    </div>
-                    <span class="font-bold text-slate-800">$2,250</span>
-                  </div>
-                  <div class="flex justify-between items-center p-4 bg-emerald-50 rounded-lg border-2 border-emerald-200">
-                    <span class="font-bold text-slate-800">Total</span>
-                    <span class="heading-font text-2xl font-bold text-emerald-600">${invoice.amount}</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="flex gap-3 pt-4">
-                <button onclick="hideModal('invoice-view-modal')" class="flex-1 px-6 py-3 bg-slate-100 text-slate-700 rounded-xl font-medium hover:bg-slate-200 transition-colors">Close</button>
-                <button class="px-6 py-3 bg-blue-500 text-white rounded-xl font-medium hover:bg-blue-600 transition-colors">Download PDF</button>
-                <button class="px-6 py-3 bg-emerald-500 text-white rounded-xl font-medium hover:bg-emerald-600 transition-colors">Send Email</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      
-      document.body.insertAdjacentHTML('beforeend', modalContent);
-    }
-    
-    function handleInvoiceSubmit(e) {
-      e.preventDefault();
-      const client = document.getElementById('invoice-client').value;
-      const amount = document.getElementById('invoice-amount').value;
-      const status = document.getElementById('invoice-status').value;
-      
-      const statusColors = {
-        'Paid': 'emerald',
-        'Pending': 'amber',
-        'Overdue': 'rose'
-      };
-      
-      const today = new Date();
-      const dateStr = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-      
-      invoices.push({
-        id: nextInvoiceId,
-        invoiceId: `INV-2024-${String(nextInvoiceId).padStart(3, '0')}`,
-        client,
-        date: dateStr,
-        amount,
-        status,
-        statusColor: statusColors[status]
-      });
-      nextInvoiceId++;
-      
-      toggleInvoiceForm();
-      showPage('invoices');
-    }
-    
-    function deleteInvoice(id) {
-      invoices = invoices.filter(i => i.id !== id);
-      showPage('invoices');
-    }
-    
-    // Expense CRUD functions
-    function toggleExpenseForm() {
-      const form = document.getElementById('expense-form-container');
-      if (form.classList.contains('hidden')) {
-        form.classList.remove('hidden');
-      } else {
-        form.classList.add('hidden');
-        document.getElementById('expense-form').reset();
-      }
-    }
-    
-    function viewExpense(id) {
-      const expense = expenses.find(e => e.id === id);
-      if (!expense) return;
-      
-      const modalContent = `
-        <div id="expense-view-modal" class="modal-backdrop fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div class="modal-content bg-white rounded-2xl p-8 max-w-xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div class="flex items-start justify-between mb-6">
-              <div class="flex items-center gap-4">
-                <div class="w-14 h-14 rounded-xl bg-slate-100 flex items-center justify-center">
-                  <svg class="w-7 h-7 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                </div>
-                <div>
-                  <h2 class="heading-font text-2xl font-bold text-slate-800">${expense.item}</h2>
-                  <p class="text-slate-500">${expense.category}</p>
-                </div>
-              </div>
-              <button onclick="hideModal('expense-view-modal')" class="text-slate-400 hover:text-slate-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-              </button>
-            </div>
-            
-            <div class="space-y-6">
-              <div class="grid grid-cols-2 gap-4">
-                <div class="bg-slate-50 rounded-xl p-4">
-                  <p class="text-sm text-slate-600 mb-1">Amount</p>
-                  <p class="heading-font text-2xl font-bold text-slate-800">${expense.amount}</p>
-                </div>
-                <div class="bg-slate-50 rounded-xl p-4">
-                  <p class="text-sm text-slate-600 mb-1">Date</p>
-                  <p class="font-medium text-slate-800">${expense.date}</p>
-                </div>
-              </div>
-              
-              <div class="border-t pt-6">
-                <h3 class="font-bold text-slate-800 mb-4">Expense Details</h3>
-                <div class="space-y-3">
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Description</span>
-                    <span class="font-medium text-slate-800">${expense.item}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Category</span>
-                    <span class="font-medium text-slate-800">${expense.category}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Expense ID</span>
-                    <span class="font-medium text-slate-800">#EXP-${String(expense.id).padStart(4, '0')}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Payment Method</span>
-                    <span class="font-medium text-slate-800">Business Credit Card</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Vendor</span>
-                    <span class="font-medium text-slate-800">Adobe Inc.</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-600">Tax Deductible</span>
-                    <span class="font-medium text-emerald-600">Yes</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="border-t pt-6">
-                <h3 class="font-bold text-slate-800 mb-3">Notes</h3>
-                <div class="bg-slate-50 rounded-lg p-4">
-                  <p class="text-slate-600 text-sm">Monthly subscription for design tools and creative software. Essential for client projects.</p>
-                </div>
-              </div>
-              
-              <div class="flex gap-3 pt-4">
-                <button onclick="hideModal('expense-view-modal')" class="flex-1 px-6 py-3 bg-slate-100 text-slate-700 rounded-xl font-medium hover:bg-slate-200 transition-colors">Close</button>
-                <button class="flex-1 px-6 py-3 bg-emerald-500 text-white rounded-xl font-medium hover:bg-emerald-600 transition-colors">Edit Expense</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      
-      document.body.insertAdjacentHTML('beforeend', modalContent);
-    }
-    
-    function handleExpenseSubmit(e) {
-      e.preventDefault();
-      const category = document.getElementById('expense-category').value;
-      const item = document.getElementById('expense-item').value;
-      const amount = document.getElementById('expense-amount').value;
-      
-      const today = new Date();
-      const dateStr = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-      
-      expenses.push({
-        id: nextExpenseId++,
-        category,
-        item,
-        date: dateStr,
-        amount
-      });
-      
-      toggleExpenseForm();
-      showPage('expenses');
-    }
-    
-    function deleteExpense(id) {
-      expenses = expenses.filter(e => e.id !== id);
-      showPage('expenses');
-    }
     
     // Time tracking CRUD functions
     function toggleTimeForm() {
@@ -905,228 +684,6 @@ window.saveTaskOnEnter = function (event, input) {
     }
     
 
-
-    
-    function getInvoicesContent() {
-      return `
-        <div class="mb-6 flex items-center justify-between">
-          <div>
-            <h1 class="heading-font text-3xl font-bold text-slate-800">Invoices</h1>
-            <p class="text-slate-500 mt-1">Track and manage your invoices</p>
-          </div>
-          <button onclick="toggleInvoiceForm()" class="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-medium transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            Create Invoice
-          </button>
-        </div>
-        
-        <!-- Add Invoice Form -->
-        <div id="invoice-form-container" class="hidden mb-6 bg-white rounded-2xl border border-slate-100 p-6">
-          <h2 class="heading-font text-xl font-bold text-slate-800 mb-4">Create New Invoice</h2>
-          <form id="invoice-form" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label for="invoice-client" class="block text-sm font-medium text-slate-700 mb-2">Client Name</label>
-                <input type="text" id="invoice-client" required class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
-              </div>
-              <div>
-                <label for="invoice-amount" class="block text-sm font-medium text-slate-700 mb-2">Amount</label>
-                <input type="text" id="invoice-amount" required placeholder="$0.00" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
-              </div>
-              <div>
-                <label for="invoice-status" class="block text-sm font-medium text-slate-700 mb-2">Status</label>
-                <select id="invoice-status" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                  <option>Pending</option>
-                  <option>Paid</option>
-                  <option>Overdue</option>
-                </select>
-              </div>
-            </div>
-            <div class="flex gap-3">
-              <button type="submit" class="px-6 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors font-medium">Create Invoice</button>
-              <button type="button" onclick="toggleInvoiceForm()" class="px-6 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors font-medium">Cancel</button>
-            </div>
-          </form>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div class="bg-white rounded-2xl p-6 border border-slate-100">
-            <div class="flex items-center gap-3 mb-3">
-              <div class="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center">
-                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-              </div>
-              <span class="text-sm font-medium text-slate-600">Paid</span>
-            </div>
-            <p class="heading-font text-3xl font-bold text-slate-800">$12,450</p>
-            <p class="text-sm text-slate-500 mt-1">${invoices.filter(i => i.status === 'Paid').length} invoices</p>
-          </div>
-          <div class="bg-white rounded-2xl p-6 border border-slate-100">
-            <div class="flex items-center gap-3 mb-3">
-              <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
-                <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-              </div>
-              <span class="text-sm font-medium text-slate-600">Pending</span>
-            </div>
-            <p class="heading-font text-3xl font-bold text-slate-800">$8,730</p>
-            <p class="text-sm text-slate-500 mt-1">${invoices.filter(i => i.status === 'Pending').length} invoices</p>
-          </div>
-          <div class="bg-white rounded-2xl p-6 border border-slate-100">
-            <div class="flex items-center gap-3 mb-3">
-              <div class="w-10 h-10 rounded-lg bg-rose-100 flex items-center justify-center">
-                <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-              </div>
-              <span class="text-sm font-medium text-slate-600">Overdue</span>
-            </div>
-            <p class="heading-font text-3xl font-bold text-slate-800">$3,400</p>
-            <p class="text-sm text-slate-500 mt-1">${invoices.filter(i => i.status === 'Overdue').length} invoices</p>
-          </div>
-        </div>
-        
-        <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden">
-          <div class="divide-y divide-slate-100">
-            ${invoices.map(invoice => `
-              <div class="px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
-                <div class="flex-1">
-                  <p class="font-bold text-slate-800">${invoice.invoiceId}</p>
-                  <p class="text-sm text-slate-500 mt-1">${invoice.client}</p>
-                </div>
-                <div class="flex-1 text-center">
-                  <p class="text-sm text-slate-600">${invoice.date}</p>
-                </div>
-                <div class="flex-1 text-center">
-                  <p class="font-bold text-slate-800">${invoice.amount}</p>
-                </div>
-                <div class="flex-1 flex items-center justify-center">
-                  <span class="text-xs font-medium text-${invoice.statusColor}-600 bg-${invoice.statusColor}-100 px-3 py-1 rounded-full">${invoice.status}</span>
-                </div>
-                <div class="flex gap-2">
-                  <button onclick="viewInvoice(${invoice.id})" class="px-3 py-2 text-sm bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-100 transition-colors">View</button>
-                  <button onclick="deleteInvoice(${invoice.id})" class="px-3 py-2 text-sm bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 transition-colors">Delete</button>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    }
-    
-    function getExpensesContent() {
-      return `
-        <div class="mb-6 flex items-center justify-between">
-          <div>
-            <h1 class="heading-font text-3xl font-bold text-slate-800">Expenses</h1>
-            <p class="text-slate-500 mt-1">Track your business expenses</p>
-          </div>
-          <button onclick="toggleExpenseForm()" class="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-medium transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            Add Expense
-          </button>
-        </div>
-        
-        <!-- Add Expense Form -->
-        <div id="expense-form-container" class="hidden mb-6 bg-white rounded-2xl border border-slate-100 p-6">
-          <h2 class="heading-font text-xl font-bold text-slate-800 mb-4">Add New Expense</h2>
-          <form id="expense-form" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label for="expense-category" class="block text-sm font-medium text-slate-700 mb-2">Category</label>
-                <select id="expense-category" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                  <option>Software</option>
-                  <option>Office</option>
-                  <option>Marketing</option>
-                  <option>Internet</option>
-                  <option>Travel</option>
-                  <option>Other</option>
-                </select>
-              </div>
-              <div>
-                <label for="expense-item" class="block text-sm font-medium text-slate-700 mb-2">Description</label>
-                <input type="text" id="expense-item" required class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
-              </div>
-              <div>
-                <label for="expense-amount" class="block text-sm font-medium text-slate-700 mb-2">Amount</label>
-                <input type="text" id="expense-amount" required placeholder="$0.00" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
-              </div>
-            </div>
-            <div class="flex gap-3">
-              <button type="submit" class="px-6 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors font-medium">Add Expense</button>
-              <button type="button" onclick="toggleExpenseForm()" class="px-6 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors font-medium">Cancel</button>
-            </div>
-          </form>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div class="bg-white rounded-2xl p-6 border border-slate-100">
-            <p class="text-sm font-medium text-slate-600 mb-2">This Month</p>
-            <p class="heading-font text-3xl font-bold text-slate-800">$3,842</p>
-          </div>
-          <div class="bg-white rounded-2xl p-6 border border-slate-100">
-            <p class="text-sm font-medium text-slate-600 mb-2">Last Month</p>
-            <p class="heading-font text-3xl font-bold text-slate-800">$4,125</p>
-          </div>
-          <div class="bg-white rounded-2xl p-6 border border-slate-100">
-            <p class="text-sm font-medium text-slate-600 mb-2">This Year</p>
-            <p class="heading-font text-3xl font-bold text-slate-800">$42,380</p>
-          </div>
-          <div class="bg-white rounded-2xl p-6 border border-slate-100">
-            <p class="text-sm font-medium text-slate-600 mb-2">Average</p>
-            <p class="heading-font text-3xl font-bold text-slate-800">$3,532</p>
-          </div>
-        </div>
-        
-        <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden">
-          <div class="px-6 py-4 border-b border-slate-100">
-            <h2 class="heading-font text-lg font-bold text-slate-800">Recent Expenses</h2>
-          </div>
-          <div class="divide-y divide-slate-100">
-            ${expenses.map(expense => `
-              <div class="px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
-                <div class="flex items-center gap-4 flex-1">
-                  <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
-                    <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <p class="font-medium text-slate-800">${expense.item}</p>
-                    <p class="text-sm text-slate-500">${expense.category}</p>
-                  </div>
-                </div>
-                <div class="text-center flex-1">
-                  <p class="text-sm text-slate-600">${expense.date}</p>
-                </div>
-                <div class="text-right flex-1">
-                  <p class="font-bold text-slate-800">${expense.amount}</p>
-                </div>
-                <div class="ml-4 flex gap-2">
-                  <button onclick="viewExpense(${expense.id})" class="text-emerald-600 hover:text-emerald-700">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                    </svg>
-                  </button>
-                  <button onclick="deleteExpense(${expense.id})" class="text-rose-600 hover:text-rose-700">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    }
     
     function getTimeTrackingContent() {
       return `
