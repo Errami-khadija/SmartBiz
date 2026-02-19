@@ -14,7 +14,8 @@ class Project extends Model
         'description',
         'start_date',
         'end_date',
-        'budget'
+        'budget',
+        'user_id',
     ];
 
     public function client()
@@ -53,6 +54,7 @@ public function getStatusColorAttribute()
     return match ($this->status) {
         'completed'   => 'bg-emerald-100 text-emerald-700',
         'in_progress' => 'bg-blue-100 text-blue-700',
+        'just_started' => 'bg-yellow-100 text-yellow-700',
         default       => 'bg-yellow-100 text-yellow-700',
     };
 }
@@ -70,5 +72,10 @@ public function getProgressAttribute()
 
     return round(($completed / $total) * 100);
 }
+
+  public function timeEntries()
+    {
+        return $this->hasMany(TimeEntry::class);
+    }
 
 }

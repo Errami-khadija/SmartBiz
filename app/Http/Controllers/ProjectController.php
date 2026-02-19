@@ -45,14 +45,18 @@ class ProjectController extends Controller
     ]);
 
     // 1️⃣ Create project AND keep reference
-    $project = Project::create($request->only([
+  $project = Project::create(array_merge(
+    $request->only([
         'client_id',
         'name',
         'description',
         'budget',
         'start_date',
         'end_date',
-    ]));
+    ]),
+    ['user_id' => auth()->id()]  
+));
+
 
     // 2️⃣ Create tasks
     if ($request->filled('tasks')) {
@@ -154,6 +158,10 @@ public function toggle(Task $task)
     ]);
 }
 
+public function tasksForProject(Project $project)
+{
+    return response()->json($project->tasks);
+}
 
 
 

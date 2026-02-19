@@ -29,6 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/tasks/{task}/toggle', [ProjectController::class, 'toggle'])
     ->name('tasks.toggle');
 
+    Route::get('/projects/{project}/tasks', [ProjectController::class, 'tasksForProject']);
+
+
     Route::post('/projects/{project}/tasks', [ProjectController::class, 'storeTasks'])
     ->name('tasks.store');
 

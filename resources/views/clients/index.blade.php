@@ -117,9 +117,10 @@
             No clients found.
           </td>
         </tr>
+        @include('clients._edit-modal', ['client' => $client])
       @endforelse
     </tbody>
   </table>
 </div>
- @include('clients._edit-modal', ['client' => $client])
+ 
 </x-app-layout>
