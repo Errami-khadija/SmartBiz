@@ -6,6 +6,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\TimeEntryController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -43,7 +44,10 @@ Route::middleware('auth')->group(function () {
     ->only(['index', 'create', 'store', 'show', 'destroy']);
 
     Route::resource('time-entries', TimeEntryController::class);
-
+    
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+Route::get('/reports/export/pdf', [ReportController::class, 'exportPdf'])->name('reports.export.pdf');
+Route::get('/reports/export/csv', [ReportController::class, 'exportCsv'])->name('reports.export.csv');
 
 
 

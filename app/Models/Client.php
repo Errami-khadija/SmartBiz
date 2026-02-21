@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Project;
+use App\Models\Invoice;
 
 class Client extends Model
 {
@@ -30,4 +31,9 @@ class Client extends Model
     {
         return $this->projects()->where('status', 'in_progress');
     }
+
+    public function invoices()
+{
+    return $this->hasMany(Invoice::class);
+}
 }
