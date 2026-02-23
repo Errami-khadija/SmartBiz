@@ -11,9 +11,19 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index(Request $request)
+     {
+        $search = $request->query('search');
         $clients = Client::where('user_id', auth()->id())
+        ->withCount('projects as active_projects_count')
+        ->get();
+
+         $clients = Client::query()
+        ->when($search, function ($query, $search) {
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('status', 'like', "%{$search}%");
+        })
         ->withCount('projects as active_projects_count')
         ->get();
 

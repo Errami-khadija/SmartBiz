@@ -161,33 +161,17 @@
       </div><span id="nav-brand" class="heading-font text-xl font-bold text-slate-900">SmartBiz</span>
      </div>
      <div class="hidden md:flex items-center gap-8"><a href="#features" class="text-slate-600 hover:text-emerald-600 font-medium transition-colors">Features</a> <a href="#how-it-works" class="text-slate-600 hover:text-emerald-600 font-medium transition-colors">How It Works</a> <a href="#pricing" class="text-slate-600 hover:text-emerald-600 font-medium transition-colors">Pricing</a> <a href="#contact" class="text-slate-600 hover:text-emerald-600 font-medium transition-colors">Contact</a>
-     </div><button class="hidden md:block px-6 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors font-medium"> @if (Route::has('login'))
-                <nav class="flex items-center justify-end gap-4">
-                    @auth
-                        <a
-                            href="{{ url('/dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                        >
-                            Dashboard
-                        </a>
-                    @else
-                        <a
-                            href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                        >
-                            Log in
-                        </a>
-
-                        @if (Route::has('register'))
-                            <a
-                                href="{{ route('register') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Register
-                            </a>
-                        @endif
-                    @endauth
-                </nav>
-            @endif
+     </div><button class="hidden md:block px-6 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors font-medium"> 
+    @if (Route::has('register'))
+    <nav class="flex items-center justify-end gap-4">
+        <a
+            href="{{ route('register') }}"
+            class="inline-block px-5 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-sm text-sm leading-normal"
+        >
+            Start Free Trial
+        </a>
+    </nav>
+@endif
             </button>
     </div>
    </nav><!-- Hero Section -->
@@ -202,7 +186,21 @@
       <div class="hero-content">
        <h1 id="hero-title" class="heading-font text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">Manage Your Business,<br><span class="gradient-text">Effortlessly</span></h1>
        <p id="hero-subtitle" class="text-xl text-slate-600 mb-8 leading-relaxed">SmartBiz is the all-in-one dashboard designed for freelancers and small businesses. Track projects, manage invoices, and grow your business with powerful analytics.</p>
-       <div class="flex flex-col sm:flex-row gap-4"><button id="cta-button" onclick="openTrialModal()" class="cta-button px-8 py-4 bg-emerald-500 text-white rounded-xl font-bold text-lg hover:bg-emerald-600 transition-all shadow-lg hover:shadow-xl"> Start Free Trial </button> <button onclick="openDemoModal()" class="px-8 py-4 border-2 border-slate-300 text-slate-900 rounded-xl font-bold text-lg hover:border-emerald-500 hover:text-emerald-600 transition-colors"> Watch Demo </button>
+       <div class="flex flex-col sm:flex-row gap-4">
+         <button class="hidden md:block px-6 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors font-medium"> 
+    @if (Route::has('register'))
+    <nav class="flex items-center justify-end gap-4">
+        <a
+            href="{{ route('register') }}"
+            class="inline-block px-5 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-sm text-sm leading-normal"
+        >
+            Start Free Trial
+        </a>
+    </nav>
+@endif
+            </button>
+
+       <button onclick="openDemoModal()" class="px-8 py-4 border-2 border-slate-300 text-slate-900 rounded-xl font-bold text-lg hover:border-emerald-500 hover:text-emerald-600 transition-colors"> Watch Demo </button>
        </div>
        <p class="text-sm text-slate-500 mt-6">✓ No credit card required • ✓ 14 days free • ✓ Cancel anytime</p>
       </div><!-- Right Visual -->

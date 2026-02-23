@@ -12,9 +12,19 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Project::with('client')->latest()->paginate(10);
+        $search = $request->query('search');
+        $projects = Project::with('client')
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                 ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhereHas('client', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  });;
+            })
+            ->latest()
+            ->paginate(10);
          $clients = Client::latest()->get();
 
     return view('projects.index', compact('projects', 'clients'));
