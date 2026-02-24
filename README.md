@@ -7,13 +7,16 @@ It acts as a lightweight ERP to help freelancers (developers, editers, designers
 
 ## Features
 
-- User authentication (login & registration)
-- Admin dashboard
-- Clients management
-- Services management
-- Orders & payments tracking
-- Expenses tracking
-- Modular & scalable Laravel architecture
+- Dashboard metrics
+- Clients CRUD
+- Projects CRUD
+- Invoice management
+- Expense tracking
+- Time tracking (hours/month calculation)
+- Search (Clients + Projects)
+- Active sidebar detection
+- Dynamic logged-in user display
+- Avatar initials
 
 > Note: SmartBiz is currently under active development.
 
