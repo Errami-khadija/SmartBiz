@@ -18,7 +18,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        @vite(['public/js/userPanel_js.js'])
+      
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -47,6 +47,8 @@
     </div>
 </div>
         </div>
+
+         <script src="{{ asset('js/userPanel_js.js') }}"></script>
     </body>
 </html>
 
