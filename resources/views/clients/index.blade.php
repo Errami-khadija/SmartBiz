@@ -50,6 +50,7 @@
     </thead>
 
     <tbody class="divide-y divide-slate-100">
+    
       @forelse ($clients as $client)
         <tr class="hover:bg-slate-50 transition-colors">
           {{-- Client --}}
@@ -128,13 +129,14 @@
             </div>
           </td>
         </tr>
+          @include('clients._edit-modal', ['client' => $client])
       @empty
         <tr>
           <td colspan="6" class="px-6 py-8 text-center text-slate-500">
             No clients found.
           </td>
         </tr>
-        @include('clients._edit-modal', ['client' => $client])
+      
       @endforelse
     </tbody>
   </table>
