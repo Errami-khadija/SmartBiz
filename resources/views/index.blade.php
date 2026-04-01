@@ -174,7 +174,8 @@
 @endif
             </button>
     </div>
-   </nav><!-- Hero Section -->
+   </nav>
+   <!-- Hero Section -->
    <section class="hero-gradient relative overflow-hidden px-6 py-20 md:py-32">
     <div class="absolute inset-0 opacity-30">
      <div class="absolute top-20 right-10 w-96 h-96 bg-emerald-400 rounded-full mix-blend-multiply filter blur-3xl floating"></div>
@@ -182,11 +183,11 @@
      <div class="absolute bottom-20 right-40 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl floating floating-delayed-2"></div>
     </div>
     <div class="max-w-7xl mx-auto relative z-10">
-     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"><!-- Left Content -->
+      <div class="text-center">
       <div class="hero-content">
        <h1 id="hero-title" class="heading-font text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">Manage Your Business,<br><span class="gradient-text">Effortlessly</span></h1>
        <p id="hero-subtitle" class="text-xl text-slate-600 mb-8 leading-relaxed">SmartBiz is the all-in-one dashboard designed for freelancers and small businesses. Track projects, manage invoices, and grow your business with powerful analytics.</p>
-       <div class="flex flex-col sm:flex-row gap-4">
+       <div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
          <button class="hidden md:block px-6 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors font-medium"> 
     @if (Route::has('register'))
     <nav class="flex items-center justify-end gap-4">
@@ -203,23 +204,6 @@
        <button onclick="openDemoModal()" class="px-8 py-4 border-2 border-slate-300 text-slate-900 rounded-xl font-bold text-lg hover:border-emerald-500 hover:text-emerald-600 transition-colors"> Watch Demo </button>
        </div>
        <p class="text-sm text-slate-500 mt-6">✓ No credit card required • ✓ 14 days free • ✓ Cancel anytime</p>
-      </div><!-- Right Visual -->
-      <div class="relative h-96 md:h-full hidden lg:block">
-       <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-3xl backdrop-blur-sm"></div>
-       <div class="absolute inset-4 bg-white rounded-2xl shadow-2xl border border-emerald-100 overflow-hidden">
-        <div class="h-full bg-gradient-to-br from-slate-50 to-slate-100 p-6 flex flex-col justify-between">
-         <div class="space-y-4">
-          <div class="h-4 bg-slate-300 rounded-full w-3/4"></div>
-          <div class="h-3 bg-slate-200 rounded-full w-1/2"></div>
-         </div>
-         <div class="grid grid-cols-2 gap-4">
-          <div class="p-4 bg-emerald-100 rounded-lg"></div>
-          <div class="p-4 bg-blue-100 rounded-lg"></div>
-          <div class="p-4 bg-purple-100 rounded-lg"></div>
-          <div class="p-4 bg-amber-100 rounded-lg"></div>
-         </div>
-        </div>
-       </div>
       </div>
      </div>
     </div>
